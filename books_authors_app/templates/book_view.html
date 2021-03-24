@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% block title %}
+{{ block.super }}
+{% endblock title %}
+
+
+{% block content %}
+<div style="padding: 3rem; " id="container">
+    <h1>{{ book.title }}</h1>
+    <h4>ID: {{ book.id }}</h3>
+        <div class="card" style="width: 25%; margin-top: 1.5rem">
+            <div class="card-body">
+                <h5 class="card-title">Description</h5>
+                <p class="card-text">{{ book.description }}</p>
+            </div>
+        </div>
+        <h3 style="margin-top: 2rem;">Authors</h3>
+        <ul class="list-group">
+            {% for authors in book.authors.all %}
+            <li class="list-group-item" style="width: 25%;">{{ authors.first_name }} {{ authors.last_name }}</li>
+            {% endfor %}
+        </ul>
+
+        <form style = "margin-top: 1.5rem; "action="/author_to_book/{{ book.id }}" method="post">
+            {% csrf_token %}
+            <div class="form-row align-items-center">
+                <div class="col-auto my-1">
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">Choose an Author</label>
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="author_id">
+                        {% for author in all_authors %}
+                        <option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </form>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock content %}
